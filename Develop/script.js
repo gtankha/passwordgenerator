@@ -17,14 +17,15 @@ var generateBtn = document.querySelector("#generate");
      var selection = isselection(charnumwp,locasewp,upcasewp,numiwp,spcwp);
 
      // Declare variable to avoid undefined type
-     var locasechar = "";
-     var upcasechar = "";
-     var numr = "";
-     var spchar1 = "";
-     var spchar2 = "";
-     var spchar3 = "";
-     var spchar4 = "";
-     var spchar = "";
+     var locasechar = [];
+     var upcasechar = [];
+     var numr = [];
+     var spchar1 = [];
+     var spchar2 = [];
+     var spchar3 = [];
+     var spchar4 = [];
+     var spchar = [];
+     var allchar = [];
 
     // If selection is valid then generate password
      if (selection) { 
@@ -48,8 +49,8 @@ var generateBtn = document.querySelector("#generate");
        };
  
     
-      //special characters
-      for (i=32; i<47; i++) {
+      //special characters.. excluding spaces
+      for (i=33; i<47; i++) {
         spchar1 = spchar1 + String.fromCharCode(i);
       };
       for (i=58; i<65; i++) {
@@ -59,9 +60,10 @@ var generateBtn = document.querySelector("#generate");
         spchar3 = spchar3 + String.fromCharCode(i);
       };
       for (i=123; i<127; i++) {
-        spchar4 = spchar3 + String.fromCharCode(i);
+        spchar4 = spchar4 + String.fromCharCode(i);
       };
       spchar = spchar1 + spchar2 + spchar3 + spchar4;
+      console.log(spchar);
     
       //assign character range
       
@@ -97,18 +99,13 @@ function isselection(charnum,locase,upcase,numi,spc) {
  
 function generatePassword(characters, passwordsize) {
   console.log(characters);
-  var finalpassword = "";
+  var finalpassword = [];
   // generate password with characters and size of passwordsize
   for (i=0; i<passwordsize; i++) {  
   var index = Math.floor(Math.random() * characters.length);
-  //ensuring undefined isn't captured
-//  if (typeof charcaters[index] !== undefined) {
+ 
   var finalpassword = finalpassword + characters[index];
   console.log(finalpassword);
-/*  }
-  else {
-    i=i-1
-  };*/
   };
   return finalpassword;
 };
