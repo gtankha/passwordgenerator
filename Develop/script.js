@@ -15,14 +15,16 @@ var generateBtn = document.querySelector("#generate");
      var spcwp = document.getElementById("specialcharacters").checked;
      // Validate selections
      var selection = isselection(charnumwp,locasewp,upcasewp,numiwp,spcwp);
-     var locasechar;
-     var upcasechar;
-     var spchar1;
-     var spchar2;
-     var spchar3;
-     var spchar4;
-     var spchar;
 
+     // Declare variable to avoid undefined type
+     var locasechar = "";
+     var upcasechar = "";
+     var numr = "";
+     var spchar1 = "";
+     var spchar2 = "";
+     var spchar3 = "";
+     var spchar4 = "";
+     var spchar = "";
 
     // If selection is valid then generate password
      if (selection) { 
@@ -31,15 +33,20 @@ var generateBtn = document.querySelector("#generate");
 
     //lowercase characters
       for (i=97; i<123; i++) {
-          locasechar = String.fromCharCode(i);
+         locasechar= locasechar + String.fromCharCode(i);     
        };
-       console.log(locasechar);
+      
 
     // uppercase characters
        for (i=65; i<91; i++) {
-          upcasechar = String.fromCharCode(i);
+          upcasechar = upcasechar + String.fromCharCode(i);
       };
-      console.log(upcasechar);
+   
+       // numbers
+       for (i=48; i<58; i++) {
+        numr = numr + String.fromCharCode(i);
+       };
+ 
     
       //special characters
       for (i=32; i<47; i++) {
@@ -55,9 +62,18 @@ var generateBtn = document.querySelector("#generate");
         spchar4 = spchar3 + String.fromCharCode(i);
       };
       spchar = spchar1 + spchar2 + spchar3 + spchar4;
-      console.log(spchar);
+    
+      //assign character range
+      
+      if (locasewp) {var allchar = allchar + locasechar};
+      if (upcasewp) {var allchar = allchar + upcasechar};
+      if (numiwp) {var allchar = allchar + numr};
+      if (spcwp) {var allchar = allchar + spchar};
 
-        var password = generatePassword();
+      console.log(allchar);
+
+      // call generate password with character set and password size
+        var password = generatePassword(allchar,charnumwp);
         var passwordText = document.querySelector("#password");
         passwordText.value = password;
       };
@@ -79,9 +95,22 @@ function isselection(charnum,locase,upcase,numi,spc) {
   return true;
   };
  
-function generatePassword() {
-  // generate password
-  return "Asas";
+function generatePassword(characters, passwordsize) {
+  console.log(characters);
+  var finalpassword = "";
+  // generate password with characters and size of passwordsize
+  for (i=0; i<passwordsize; i++) {  
+  var index = Math.floor(Math.random() * characters.length);
+  //ensuring undefined isn't captured
+//  if (typeof charcaters[index] !== undefined) {
+  var finalpassword = finalpassword + characters[index];
+  console.log(finalpassword);
+/*  }
+  else {
+    i=i-1
+  };*/
+  };
+  return finalpassword;
 };
 
 // Set variables
