@@ -63,7 +63,6 @@ var generateBtn = document.querySelector("#generate");
         spchar4 = spchar4 + String.fromCharCode(i);
       };
       spchar = spchar1 + spchar2 + spchar3 + spchar4;
-      console.log(spchar);
     
       //assign character range
       
@@ -72,15 +71,20 @@ var generateBtn = document.querySelector("#generate");
       if (numiwp) {var allchar = allchar + numr};
       if (spcwp) {var allchar = allchar + spchar};
 
-      console.log(allchar);
-
       // call generate password with character set and password size
+
         var password = generatePassword(allchar,charnumwp);
+    
+    // ensure that the randomly generated password meets the password criteria. Unlikely but possible randomization function
+    // skipped a numeric character or something similar. More likely for small password sizes.
+
+     while (!checkPassword(password,locasewp,upcasewp,numiwp,spcwp)) { password = generatePassword(allchar,charnumwp);}
+
+   // display password 
         var passwordText = document.querySelector("#password");
         passwordText.value = password;
-      };
+    };
   };
-
 //Check of selections are valid and complete
 function isselection(charnum,locase,upcase,numi,spc) {
  
@@ -98,17 +102,50 @@ function isselection(charnum,locase,upcase,numi,spc) {
   };
  
 function generatePassword(characters, passwordsize) {
-  console.log(characters);
   var finalpassword = [];
   // generate password with characters and size of passwordsize
   for (i=0; i<passwordsize; i++) {  
   var index = Math.floor(Math.random() * characters.length);
- 
-  var finalpassword = finalpassword + characters[index];
-  console.log(finalpassword);
+  finalpassword = finalpassword + characters[index];
   };
   return finalpassword;
 };
+
+function checkPassword(passwordc,locasewpp,upcasewpp,numiwpp,spcwpp){
+
+  var check = [false,false,false,false];
+// checks to see if password matches the criteria
+  for (i=0; i<passwordc.length; i++) {
+   
+    if (((passwordc.charCodeAt(i) > 96) && (passwordc.charCodeAt(i) < 123)) && locasewpp){
+     check[0]=true;
+     }
+    if (!locasewpp) { check[0]=true; }
+    if (((passwordc.charCodeAt(i) > 64) && (passwordc.charCodeAt(i) < 91)) && upcasewpp){
+      check[1]=true;
+     }
+     if (!upcasewpp) { check[1]=true; }
+     if (((passwordc.charCodeAt(i) > 47) && (passwordc.charCodeAt(i) < 58)) && numiwpp){
+      check[2]=true;
+     }
+     if (!numiwpp) { check[2]=true; }
+     if (((passwordc.charCodeAt(i) > 32) && (passwordc.charCodeAt(i) <47)) && spcwpp){
+      check[3]=true;
+    }
+     if (((passwordc.charCodeAt(i) > 57) && (passwordc.charCodeAt(i) <65)) && spcwpp){
+      check[3]=true;
+    }
+     if (((passwordc.charCodeAt(i) > 90) && (passwordc.charCodeAt(i) <97)) && spcwpp){
+       check[3]=true;
+      }
+     if (((passwordc.charCodeAt(i) > 125) && (passwordc.charCodeAt(i) <124)) && spcwpp){
+      check[3]=true;
+    }
+    if (!spcwpp) { check[3]=true; }
+  };
+  console.log(check);
+  if (check[0] && check[1] && check[2] && check[3]) { return true;} else {return false;}
+}
 
 // Set variables
 //Add event listener to generate button 
